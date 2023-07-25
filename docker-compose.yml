@@ -12,12 +12,16 @@ services:
     volumes:
      - .:/go
   db:
-    container_name: "ChallengeDB"
-    image: "mysql:8"
+    build:
+      context: .
+      dockerfile: db/Dockerfile
     ports:
-      - 3306:3306
+      - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ChallengeDB
     restart: always
     volumes:
       - ./data/data.sql:/docker-entrypoint-initdb.d/data.sql
