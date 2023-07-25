@@ -3,6 +3,7 @@ package handlers
 import (
 	"challenge/models"
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -13,7 +14,8 @@ func CurrencyConverter(w http.ResponseWriter, r *http.Request) {
 
 	conversion, err := models.ExchangeHandlerService(params)
 	if err != nil {
-		http.Error(w, "Failed to process conversion request", http.StatusInternalServerError)
+		log.Printf("Failed to process conversion request: %v", err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
